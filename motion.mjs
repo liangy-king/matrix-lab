@@ -1,5 +1,6 @@
 import { grid, line, matrix, point, shape } from './labs.mjs';
 import { add, multiply, replaceColumn, split, transform, transpose } from './matrix.mjs';
+import { chapter3MotionSteps, chapter3MotionScenes } from './chapter3-labs.mjs';
 
 const motionA = [[1, 2, 3], [4, 5, 6]];
 const motionB = [[1, 0], [0, 1], [1, 2]];
@@ -15,6 +16,7 @@ const secondTerm = multiply(motionLeft[0][1], motionRight[1][0]);
 const motionHasReducedPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const motionSteps = {
+  ...chapter3MotionSteps,
   transpose: [
     ['坐标为什么要对调？', 'A₁₂ = (Aᵀ)₂₁ = 2', '横着数到第 2 个格子，再把原来的第 1 行竖着排成第 1 列。横坐标和纵坐标互换，所以 2 落到第 2 行第 1 列。'],
     ['先找乘积里的 8', '(AB)₁₂ = 1×0 + 2×1 + 3×2 = 8', '左侧取 A 的第 1 行，右侧取 B 的第 2 列。相同内维位置成对相乘，最后相加。'],
@@ -45,9 +47,10 @@ const sampleMark = (row, col) => (i, j) => i === row && j === col ? 'active' : '
 const motionPair = (...figures) => `<div class="matrix-set">${figures.join('')}</div>`;
 const emphasis = (text, variant = '') => `<div class="motion-label ${variant}">${text}</div>`;
 
-function transit(drawing, source, target, text) {
+function transit(drawing, source, target, text, row = false) {
   const token = document.createElement('span');
   token.className = 'motion-token';
+  token.classList.toggle('motion-row', row);
   token.setAttribute('aria-hidden', 'true');
   token.textContent = text;
   drawing.append(token);
@@ -154,7 +157,7 @@ function blockScene(drawing, step) {
   };
 }
 
-const renderScenes = { transpose: transposeScene, inverse: inverseScene, cramer: cramerScene, blocks: blockScene };
+const renderScenes = { transpose: transposeScene, inverse: inverseScene, cramer: cramerScene, blocks: blockScene, ...chapter3MotionScenes };
 
 export function mountMotion(container, id) {
   const steps = motionSteps[id];
@@ -199,11 +202,11 @@ export function mountMotion(container, id) {
       container.querySelector('.motion-index').textContent = `${index + 1} / ${steps.length}`;
       slider.setAttribute('aria-valuetext', `第 ${index + 1} 步，${heading}`);
       drawing.classList.remove('motion-eliminated');
-      paint = renderScenes[id](drawing, index);
+      paint = renderScenes[id](drawing, index, transit);
       back.disabled = index === 0;
       next.disabled = index === steps.length - 1;
     }
-    paint?.((time - index * stepTime) / stepTime);
+    paint?.(motionHasReducedPreference.matches ? 1 : (time - index * stepTime) / stepTime);
   }
 
   function stop() {

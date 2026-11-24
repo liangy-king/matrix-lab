@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f3ff">
-  <meta name="description" content="Gods（2/4）线性代数互动课。动手学矩阵转置、逆矩阵、克拉默法则和分块矩阵。">
+  <meta name="description" content="Gods（2/4）线性代数互动课。学习矩阵运算、初等变换、矩阵的秩与线性方程组。">
   <title>矩阵实验室 · Gods（2/4）</title>
   <link rel="stylesheet" href="./course.css">
   <script type="module" src="./course.mjs"></script>
@@ -20,10 +20,13 @@
   <main class="frame">
     <section class="hero" aria-labelledby="course-title">
       <div class="hero-copy">
-        <p class="eyebrow">线性代数 <span>／</span> 第二章续篇</p>
+        <p class="eyebrow">线性代数 <span>／</span> 第二章续篇与第三章</p>
         <h1 id="course-title">让矩阵动起来<span>。</span></h1>
-        <p class="hero-description">点一点，看看行列怎么交换。拖一拖，看看平面为什么会被压成一条线。</p>
-        <button type="button" class="primary" id="resume">继续学习</button>
+        <p class="hero-description">点格子看行列交换，拖动向量看秩的变化。动手消元，看看方程组会有几个解。</p>
+        <div class="hero-actions">
+          <button type="button" class="primary" id="resume">继续学习</button>
+          <a class="secondary" href="#row-operations" data-lesson="row-operations">开始第三章</a>
+        </div>
         <p class="resume-label" id="resume-label">从矩阵转置开始</p>
       </div>
       <div class="hero-decoration" aria-hidden="true">
@@ -37,14 +40,14 @@
       <aside class="sidebar" aria-label="章节目录">
         <div class="sidebar-title">
           <h2>章节目录</h2>
-          <span id="progress-label">0 / 5</span>
+          <span id="progress-label">0 / 9</span>
         </div>
-        <progress id="course-progress" value="0" max="5" aria-label="已完成单元"></progress>
+        <progress id="course-progress" value="0" max="9" aria-label="已完成单元"></progress>
         <nav id="desktop-nav" aria-label="课程单元"></nav>
         <p class="sidebar-note">进度保存在当前浏览器。</p>
       </aside>
       <details class="mobile-nav" id="mobile-nav">
-        <summary><span>章节目录</span><span id="mobile-progress">0 / 5 完成</span></summary>
+        <summary><span>章节目录</span><span id="mobile-progress">0 / 9 完成</span></summary>
         <nav id="mobile-nav-links" aria-label="课程单元"></nav>
         <p class="sidebar-note">进度保存在当前浏览器。</p>
       </details>

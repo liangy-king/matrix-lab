@@ -46,7 +46,9 @@ h1 span { color: var(--violet); }
 .primary:hover { background: #412d72; }
 .secondary, .small-button { border-color: #d8cfee; background: white; color: var(--ink); }
 .secondary:hover, .small-button:hover, .chip:hover { background: var(--lavender); }
-.resume-label { display: inline-block; color: var(--muted); margin-left: 12px; font-size: .875rem; }
+.hero-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-actions a { display: inline-flex; align-items: center; text-decoration: none; }
+.resume-label { color: var(--muted); margin-top: 7px; font-size: .875rem; }
 .hero-decoration { position: absolute; z-index: 0; inset: 0 0 0 auto; width: 51%; pointer-events: none; color: #312052; }
 .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(#8a69df33 1px, transparent 1px), linear-gradient(90deg, #8a69df33 1px, transparent 1px); background-size: 26px 26px; mask-image: linear-gradient(90deg, transparent 1%, #000 60%); }
 .motif { position: absolute; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 11px; width: clamp(84px, 12vw, 145px); aspect-ratio: 1; border: 2px solid currentColor; border-radius: 18px; box-shadow: 7px 8px 0 #241639; }
@@ -55,7 +57,7 @@ h1 span { color: var(--violet); }
 .motif-second { top: 39%; right: 17%; transform: rotate(12deg); background: var(--lime); }
 .motif-symbol { position: absolute; right: 11%; top: 12%; font: italic 750 clamp(1.8rem, 4vw, 3.5rem) Georgia, serif; transform: rotate(12deg); }
 .workspace { display: grid; grid-template-columns: 238px minmax(0, 1fr); gap: 28px; align-items: start; }
-.sidebar { position: sticky; top: 16px; padding: 20px 14px 16px; background: white; border: 1px solid var(--line); border-radius: 20px; }
+.sidebar { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; padding: 20px 14px 16px; background: white; border: 1px solid var(--line); border-radius: 20px; }
 .sidebar-title { display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding-inline: 6px; margin-bottom: 8px; }
 .sidebar-title h2 { font-size: 1rem; }
 .sidebar-title span, #mobile-progress { font-size: .875rem; color: var(--muted); }
@@ -67,6 +69,8 @@ progress::-moz-progress-bar { background: var(--violet); border-radius: 8px; }
 .nav-link:hover, .nav-link[aria-current='page'] { background: var(--lavender); color: #4526a1; }
 .nav-number { color: var(--purple); font-size: .84rem; }
 .nav-done { color: #346530; }
+.nav-chapter h3 { margin: 10px 5px 4px; font-size: .875rem; font-weight: 750; color: var(--muted); }
+.nav-chapter + .nav-chapter { border-top: 1px solid var(--line); margin-top: 7px; }
 .sidebar-note { color: var(--muted); font-size: .875rem; padding: 11px 6px 0; }
 .mobile-nav { display: none; }
 .lesson { min-width: 0; outline: none; scroll-margin-top: 12px; padding: clamp(16px, 3.6vw, 38px); border: 1px solid var(--line); border-radius: 22px; background: white; }
@@ -156,8 +160,19 @@ legend { max-width: 100%; padding-inline: 5px; font-weight: 750; }
 .motion-drawing .matrix-set { margin-block: 0; }
 .motion-drawing canvas { margin: 0; }
 .motion-token { position: absolute; z-index: 2; top: 0; left: 0; width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid #68930f; border-radius: 7px; background: var(--lime); color: var(--ink); font-weight: 850; box-shadow: 0 3px 8px #29164d38; pointer-events: none; }
+.motion-row { width: auto; padding-inline: 7px; white-space: pre; font-variant-numeric: tabular-nums; }
 .motion-eliminated figure:last-child { opacity: .58; text-decoration: line-through; text-decoration-thickness: 2px; }
 .motion-label { padding: 8px; font-weight: 750; color: var(--purple); }
+.chapter3-slider { margin-top: 10px; max-width: 25rem; }
+.chapter3-slider label { display: grid; grid-template-columns: 1fr auto; align-items: center; font-weight: 700; }
+.chapter3-slider input { grid-column: 1 / -1; width: 100%; min-height: 44px; margin: 0; accent-color: var(--violet); }
+.chapter3-slider output { color: var(--purple); }
+.chapter3-toggle { display: inline-flex; align-items: center; gap: .55rem; min-height: 44px; margin-top: .4rem; }
+.chapter3-toggle input { accent-color: var(--violet); }
+.chapter3-board .matrix-set { margin-top: 12px; }
+.chapter3-board .matrix { max-width: 100%; }
+.chapter3-board td { overflow-wrap: anywhere; }
+.lab-actions button:disabled { opacity: .55; cursor: default; }
 .motion-explanation { display: grid; gap: 6px; }
 .motion-formula { color: #3f2782; font-size: 1.1em; font-weight: 700; overflow-wrap: anywhere; }
 .motion-description { color: #4e4262; }

@@ -3,11 +3,17 @@ import { lessons } from './lessons.mjs';
 import { equalsAnswer } from './matrix.mjs';
 import { mountMotion } from './motion.mjs';
 import { mountExtension } from './advanced.mjs';
+import { chapter3Labs } from './chapter3-labs.mjs';
 
 const storageKey = 'gods-matrix-lab-chapter2-v1';
 const article = document.querySelector('#lesson');
 const mobileMenu = document.querySelector('#mobile-nav');
 const lessonById = new Map(lessons.map(lesson => [lesson.id, lesson]));
+const chapters = [
+  { number: 2, title: '第二章 · 矩阵及其运算' },
+  { number: 3, title: '第三章 · 初等变换与方程组' },
+];
+const chapterOf = lesson => lesson.chapter ?? 2;
 const state = readState();
 let active;
 let stopMotion;
@@ -34,14 +40,19 @@ function updateNavigation() {
   const done = lessons.filter(lesson => state.practice[lesson.id]?.passed).length;
   document.querySelector('#progress-label').textContent = `${done} / ${lessons.length}`;
   document.querySelector('#mobile-progress').textContent = `${done} / ${lessons.length} 完成`;
-  document.querySelector('#course-progress').value = done;
+  const progress = document.querySelector('#course-progress');
+  progress.max = lessons.length;
+  progress.value = done;
   document.querySelector('#resume-label').textContent = `当前单元 · ${active.title}`;
   document.querySelectorAll('#desktop-nav, #mobile-nav-links').forEach(nav => {
     if (!nav.childElementCount) {
-      nav.innerHTML = lessons.map(({ id, section, title }) => `
-        <a class="nav-link" href="#${id}" data-lesson="${id}">
-          <span class="nav-number">${section}</span><span>${title}</span><span class="nav-done" aria-hidden="true"></span>
-        </a>`).join('');
+      nav.innerHTML = chapters.map(chapter => `<div class="nav-chapter">
+        <h3>${chapter.title}</h3>
+        ${lessons.filter(lesson => chapterOf(lesson) === chapter.number).map(({ id, section, title }) => `
+          <a class="nav-link" href="#${id}" data-lesson="${id}">
+            <span class="nav-number">${section}</span><span>${title}</span><span class="nav-done" aria-hidden="true"></span>
+          </a>`).join('')}
+      </div>`).join('');
     }
     nav.querySelectorAll('[data-lesson]').forEach(link => {
       const id = link.dataset.lesson;
@@ -54,7 +65,7 @@ function updateNavigation() {
 }
 
 function practiceMarkup(lesson) {
-  const isReview = lesson.id === 'review';
+  const isReview = lesson.review;
   return `<section class="practice" aria-labelledby="practice-title">
     <h3 id="practice-title">${isReview ? '独立作答' : '动手测一下'}</h3>
     <p class="question-text">数字题可填整数、小数或分数，例如 −1、0.5、1/2。</p>
@@ -163,11 +174,12 @@ function openLesson(id, focus = false) {
     stopMotion = undefined;
     active = lesson;
     state.current = id;
-    const lab = labs[id];
+    const lab = labs[id] ?? chapter3Labs[id];
     const index = lessons.indexOf(lesson);
     const previous = lessons[index - 1];
     const next = lessons[index + 1];
-    article.innerHTML = `<p class="eyebrow">${id === 'review' ? '第二章 · 章末' : '第二章 · ' + lesson.section}</p>
+    const chapterLabel = chapterOf(lesson) === 3 ? '第三章' : '第二章';
+    article.innerHTML = `<p class="eyebrow">${chapterLabel} · ${lesson.section}</p>
       <h2 id="lesson-title">${lesson.title}</h2><p class="lesson-lead">${lesson.lead}</p>
       ${lab ? '<div class="lesson-shortcuts"><button type="button" class="secondary jump-motion">看动画推导</button><button type="button" class="secondary jump-extension">看进阶拓展</button></div>' : ''}
       ${lab ? `<section class="lab" aria-labelledby="lab-title"><h3 id="lab-title">${lab.title}</h3><p>${lab.instruction}</p><div id="lab-panel"></div></section>` : ''}
@@ -178,7 +190,7 @@ function openLesson(id, focus = false) {
       ${lab ? '<div id="lesson-extension"></div>' : ''}
       <nav class="lesson-footer" aria-label="上下单元">
         ${previous ? `<a class="secondary" href="#${previous.id}" data-lesson="${previous.id}">上一单元</a>` : '<span></span>'}
-        ${next ? `<a class="primary" href="#${next.id}" data-lesson="${next.id}">下一单元 · ${next.id === 'review' ? '章末练习' : next.title}</a>` : ''}
+        ${next ? `<a class="primary" href="#${next.id}" data-lesson="${next.id}">${chapterOf(next) !== chapterOf(lesson) ? '进入第三章' : '下一单元'} · ${next.review ? '章末练习' : next.title}</a>` : ''}
       </nav>`;
     if (lab) {
       lab.mount(article.querySelector('#lab-panel'));

@@ -1,4 +1,7 @@
+import { chapter3Extensions } from './chapter3-content.mjs';
+
 const extensions = {
+  ...chapter3Extensions,
   transpose: {
     title: '为什么 AᵀA 会记录列之间的关系？',
     paragraphs: [

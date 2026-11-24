@@ -1,3 +1,5 @@
+import { chapter3Lessons } from './chapter3-content.mjs';
+
 const matrixQuestion = (title, prompt, shape, answer, hint, solution) =>
   ({ title, prompt, shape, answer, hint, solution });
 
@@ -79,7 +81,7 @@ export const lessons = [
     ],
   },
   {
-    id: 'review', section: '章末', title: '第二章综合练习',
+    id: 'review', section: '章末', title: '第二章综合练习', review: true,
     lead: '这一组把方阵的幂和转置一起补上。先独立填完，提交后会标出能保留的答案和需要重试的地方。',
     notes: [
       '计算前先看尺寸，再看乘法顺序。对同一个方阵的幂，A²A = AA² = A³ 来自结合律。',
@@ -101,4 +103,5 @@ export const lessons = [
         [13], 'C₁₁ 的两项分别来自 A₁₁B₁₁ 和 A₁₂B₂₁。', '两项各为 2×4 + 1×(−1) = 7、3×2 = 6，相加得 13。'),
     ],
   },
+  ...chapter3Lessons(matrixQuestion, choiceQuestion),
 ];
